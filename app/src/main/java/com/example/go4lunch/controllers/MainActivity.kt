@@ -7,6 +7,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import com.example.go4lunch.R
 import com.example.go4lunch.adapters.RestaurantViewPagerAdapter
+import com.example.go4lunch.utils.APICalls
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.activity_main.*
@@ -18,6 +19,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        APICalls.init(this)
+
         initialiseViewPager()
 
         attachToolbar()
@@ -28,6 +31,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun initialiseViewPager() {
         activity_main_pager_restaurant_view.adapter = RestaurantViewPagerAdapter(this)
+        activity_main_pager_restaurant_view.isUserInputEnabled = false // Disable swiping
     }
 
     private fun attachToolbar() {
