@@ -3,6 +3,7 @@ package com.example.go4lunch.utils
 import android.content.Context
 import android.location.Location
 import androidx.annotation.Nullable
+import com.example.go4lunch.models.PlaceDetails
 import com.example.go4lunch.models.Places
 import okhttp3.Cache
 import okhttp3.OkHttpClient
@@ -14,6 +15,7 @@ class APICalls {
 
     interface ICallBacks {
         fun onResponse(@Nullable places: Places?)
+        fun onResponse(@Nullable place: PlaceDetails?)
         fun onFailure()
     }
 
@@ -30,6 +32,21 @@ class APICalls {
                     if (callbacksWeakReference.get() != null) callbacksWeakReference.get()!!.onResponse(response.body())
                 }
                 override fun onFailure(call: Call<Places>, t: Throwable) {
+                    if (callbacksWeakReference.get() != null) callbacksWeakReference.get()!!.onFailure();
+                }
+            })
+        }
+
+        fun fetchPlaceDetails(callbacks: ICallBacks, id: String, fields: String, apiKey: String) {
+            val callbacksWeakReference = WeakReference(callbacks)
+            val mapsService = mRetrofit.create(IMapsService::class.java)
+
+            val call = mapsService.getPlaceDetails(id, fields, apiKey)
+            call.enqueue(object : Callback<PlaceDetails> {
+                override fun onResponse(call: Call<PlaceDetails>, response: Response<PlaceDetails>) {
+                    if (callbacksWeakReference.get() != null) callbacksWeakReference.get()!!.onResponse(response.body())
+                }
+                override fun onFailure(call: Call<PlaceDetails>, t: Throwable) {
                     if (callbacksWeakReference.get() != null) callbacksWeakReference.get()!!.onFailure();
                 }
             })

@@ -1,6 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/list_row_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageView
+        android:id="@+id/list_row_restaurant_image_rectangle"
+        android:layout_height="100dp"
+        android:layout_width="match_parent"
+        android:src="@drawable/rectangle"
+        />
+
+    <ImageView
+        android:id="@+id/list_row_restaurant_image_snapshot"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="15dp"
+        android:scaleType="fitXY" />
+
+    <TextView
+        android:id="@+id/list_row_restaurant_text_name"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp"/>
+
+    <TextView
+        android:id="@+id/list_row_restaurant_text_type_and_address"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="35dp"
+        android:layout_marginLeft="15dp"/>
+
+    <TextView
+        android:id="@+id/list_row_restaurant_text_opening_hours"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="55dp" />
+
+    <TextView
+        android:id="@+id/list_row_restaurant_text_coworkers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/list_row_restaurant_image_snapshot"
+        android:layout_marginTop="35dp"
+        android:layout_marginRight="15dp"/>
+
+    <ImageView
+        android:id="@+id/list_row_restaurant_image_coworkers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/list_row_restaurant_image_snapshot"
+        android:layout_marginTop="35dp"
+        android:layout_marginRight="30dp"/>
+
+    <ImageView
+        android:id="@+id/list_row_restaurant_image_rating"
+        android:layout_width="30dp"
+        android:layout_height="10dp"
+        android:rotation="180"
+        android:layout_toLeftOf="@id/list_row_restaurant_image_snapshot"
+        android:layout_marginTop="77.5dp"
+        android:layout_marginRight="5dp"
+        android:src="@drawable/star_repeat"
+        android:scaleType="fitXY"/>
+
+    <TextView
+        android:id="@+id/list_row_restaurant_text_distance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/list_row_restaurant_image_snapshot"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="45dp"/>
+
+</RelativeLayout>

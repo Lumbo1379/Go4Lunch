@@ -16,9 +16,11 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.example.go4lunch.R
+import com.example.go4lunch.models.PlaceDetails
 import com.example.go4lunch.models.Places
 import com.example.go4lunch.utils.APICalls
 import com.example.go4lunch.utils.APIConstants
+import com.example.go4lunch.utils.PreferenceKeys
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -92,6 +94,16 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickL
         mFusedLocationClient.lastLocation.addOnSuccessListener { location ->
             if (location != null) {
                 mLastLocation = location
+
+                val preferences = activity?.getPreferences(Context.MODE_PRIVATE)
+                if (preferences != null) {
+                    with (preferences.edit()) {
+                        putFloat(PreferenceKeys.PREF_KEY_LAT, location.latitude.toFloat())
+                        putFloat(PreferenceKeys.PREF_KEY_LNG, location.longitude.toFloat())
+                        commit()
+                    }
+                }
+
                 val currentLatLng = LatLng(location.latitude, location.longitude)
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12f))
 
@@ -140,7 +152,7 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickL
     }
 
     private fun getRestaurants() {
-        APICalls.fetchPlaces(this, mLastLocation, 1500, "restaurant", "", APIConstants.API_KEY)
+        APICalls.fetchPlaces(this, mLastLocation, 1500, "restaurant", "restaurant", APIConstants.API_KEY)
     }
 
     private fun placeMarker(location: LatLng) {
@@ -156,6 +168,10 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickL
                 placeMarker(LatLng(place.geometry.location.lat, place.geometry.location.lng))
             }
         }
+    }
+
+    override fun onResponse(place: PlaceDetails?) {
+
     }
 
     override fun onFailure() {
