@@ -48,7 +48,7 @@ class RestaurantRecyclerViewAdapter : RecyclerView.Adapter<RestaurantRecyclerVie
         var i = 0
 
         while (i < mPlaces.size) {
-            if (mDetails[i]?.result?.openingHours?.openNow == false) {
+            if (mDetails[i]?.result?.openingHours?.openNow == false || mDetails[i]?.result?.openingHours == null) {
                 mDetails.removeAt(i)
                 mPlaces.removeAt(i)
             } else {
