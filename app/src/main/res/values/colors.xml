@@ -4,4 +4,6 @@
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
     <color name="colorText">#808080</color>
+    <color name="colorBottomSheet">#6200EE</color>
+    <color name="colorBottomSheetText">#FFFFFF</color>
 </resources>

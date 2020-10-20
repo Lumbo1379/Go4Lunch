@@ -5,12 +5,18 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.go4lunch.R
 import com.example.go4lunch.adapters.RestaurantViewPagerAdapter
 import com.example.go4lunch.utils.APICalls
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main_nav_header.*
+import kotlinx.android.synthetic.main.activity_main_nav_header.view.*
 import kotlinx.android.synthetic.main.toolbar.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -27,6 +33,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         attachDrawerLayout()
         attachNavigationView()
         attachTabLayout()
+
+        updateProfileUI()
     }
 
     private fun initialiseViewPager() {
@@ -68,5 +76,29 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         activity_main.closeDrawer(GravityCompat.START)
 
         return false;
+    }
+
+    private fun getCurrentUser(): FirebaseUser? {
+        return FirebaseAuth.getInstance().currentUser
+    }
+
+    private fun isCurrentUserLoggedIn(): Boolean {
+        return  getCurrentUser() != null
+    }
+
+    private fun updateProfileUI() {
+        val headerLayout = activity_main_nav_view.getHeaderView(0)
+
+        if (isCurrentUserLoggedIn()) {
+            if (getCurrentUser()?.photoUrl != null) {
+                Glide.with(this)
+                    .load(getCurrentUser()!!.photoUrl)
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(headerLayout.activity_main_nav_header_profile_picture)
+            }
+        }
+
+        headerLayout.activity_main_nav_header_text_name.text = getCurrentUser()?.displayName
+        headerLayout.activity_main_nav_header_text_email.text = getCurrentUser()?.email
     }
 }

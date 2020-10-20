@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:id="@+id/bottom_sheet_restaurant_image"
+        android:scaleType="fitXY"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/bottom_sheet_restaurant_image_rectangle"
+            android:layout_height="100dp"
+            android:layout_width="match_parent"
+            android:src="@drawable/rectangle"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/bottom_sheet_restaurant_name"
+            android:layout_margin="15dp"
+            android:textColor="@color/colorBottomSheetText"/>
+
+        <ImageView
+            android:id="@+id/bottom_sheet_restaurant_image_rating"
+            android:layout_width="30dp"
+            android:layout_height="10dp"
+            android:layout_toRightOf="@id/bottom_sheet_restaurant_name"
+            android:src="@drawable/star_repeat"
+            android:layout_margin="15dp"
+            android:scaleY="-1"
+            android:scaleType="fitXY"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/bottom_sheet_restaurant_address"
+            android:layout_marginTop="35dp"
+            android:layout_marginLeft="15dp"
+            android:textColor="@color/colorBottomSheetText"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

@@ -5,11 +5,6 @@
     android:layout_height="wrap_content"
     android:layout_width="match_parent">
 
-    <group android:checkableBehavior="single">
-        <item
-            android:title="Go4Lunch" />
-    </group>
-
     <item android:title="Categories">
         <menu>
             <group android:checkableBehavior="single">

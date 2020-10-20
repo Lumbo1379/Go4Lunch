@@ -1,30 +1,38 @@
 package com.example.go4lunch.adapters
 
+import android.content.SharedPreferences
 import android.graphics.Color
-import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.go4lunch.R
+import com.example.go4lunch.fragments.RestaurantBottomSheetFragment
 import com.example.go4lunch.models.Place
 import com.example.go4lunch.models.PlaceDetail
 import com.example.go4lunch.models.PlaceDetails
 import com.example.go4lunch.utils.APIConstants
 import com.example.go4lunch.utils.APIParse
+import com.example.go4lunch.utils.Maths
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.list_row_restaurant.view.*
 import java.util.*
+import kotlin.math.roundToInt
 
 class RestaurantRecyclerViewAdapter : RecyclerView.Adapter<RestaurantRecyclerViewAdapter.RestaurantViewHolder> {
 
-    var mPlaces: MutableList<Place>
-    var mDetails: MutableList<PlaceDetails?>
+    private var mPlaces: MutableList<Place>
+    private var mDetails: MutableList<PlaceDetails?>
+    private var mPreferences: SharedPreferences
+    private var mActivity: FragmentActivity?
 
-    constructor(places: List<Place>, details: List<PlaceDetails?>) {
+    constructor(places: List<Place>, details: List<PlaceDetails?>, preferences: SharedPreferences, activity: FragmentActivity?) {
         mPlaces = places.toMutableList()
         mDetails = details.toMutableList()
+        mPreferences = preferences
+        mActivity = activity
 
         removeClosedRestaurants()
     }
@@ -41,7 +49,18 @@ class RestaurantRecyclerViewAdapter : RecyclerView.Adapter<RestaurantRecyclerVie
     }
 
     override fun onBindViewHolder(holder: RestaurantViewHolder, position: Int) {
-        holder.updateWithRestaurant(mPlaces[position], mDetails[position]?.result)
+        holder.updateWithRestaurant(mPlaces[position], mDetails[position]?.result, mPreferences)
+        holder.itemView.tag = position
+
+        holder.itemView.setOnClickListener {
+            val position = it.tag.toString().toInt()
+
+            val bottomSheet = RestaurantBottomSheetFragment(mPlaces[position])
+
+            if (mActivity != null) {
+                bottomSheet.show(mActivity!!.supportFragmentManager, "restaurantBottomSheet")
+            }
+        }
     }
 
     private fun removeClosedRestaurants() {
@@ -58,13 +77,13 @@ class RestaurantRecyclerViewAdapter : RecyclerView.Adapter<RestaurantRecyclerVie
     }
 
     class RestaurantViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun updateWithRestaurant(place: Place, details: PlaceDetail?) {
+        fun updateWithRestaurant(place: Place, details: PlaceDetail?, preferences: SharedPreferences) {
             itemView.list_row_restaurant_text_name.text = place.name
-            itemView.list_row_restaurant_text_type_and_address.text = APIParse.parseAddress(place.vicinity)
+            itemView.list_row_restaurant_text_address.text = APIParse.parseAddress(place.vicinity)
 
             if (details != null) {
                 if (details.openingHours != null) {
-                    itemView.list_row_restaurant_text_opening_hours.text = APIParse.parseOpeningHours(details.openingHours.periods, Calendar.getInstance().get(Calendar.DAY_OF_WEEK))
+                    itemView.list_row_restaurant_text_opening_hours.text = APIParse.parseOpeningHours(details.openingHours.periods, Calendar.getInstance().get(Calendar.DAY_OF_WEEK) - 1) // Sunday is 1, we want it to be 0
 
                     if (itemView.list_row_restaurant_text_opening_hours.text == "Closing soon") {
                         itemView.list_row_restaurant_text_opening_hours.setTextColor(Color.RED)
@@ -79,6 +98,8 @@ class RestaurantRecyclerViewAdapter : RecyclerView.Adapter<RestaurantRecyclerVie
             itemView.list_row_restaurant_image_rating.layoutParams.width = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, width, itemView.resources.displayMetrics).toInt() // Convert px to dp
 
             Picasso.get().load("https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=" + place.photos[0].photo_reference + "&key=" + APIConstants.API_KEY).into(itemView.list_row_restaurant_image_snapshot)
+
+            itemView.list_row_restaurant_text_distance.text = Maths.latLngDistance(place.geometry.location.lat, place.geometry.location.lng, preferences).roundToInt().toString() + "m"
         }
     }
 }

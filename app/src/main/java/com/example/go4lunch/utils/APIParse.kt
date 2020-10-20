@@ -14,17 +14,10 @@ class APIParse {
         }
 
         fun parseOpeningHours(periods: List<Period>, day: Int) : String {
-
-            var d = day
-
-            if (d == 7) {
-                d = 0
-            }
-
             if (periods[0].close == null)
                 return "24/7"
 
-            val relevantPeriods = periods.filter { p -> p.open.day == d }
+            val relevantPeriods = periods.filter { p -> p.open.day == day }
 
             return when (relevantPeriods.size) {
                 1 -> {

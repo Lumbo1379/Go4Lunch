@@ -1,6 +1,7 @@
 package com.example.go4lunch.fragments
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.location.Location
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -22,6 +23,7 @@ class ListViewFragment : Fragment(), APICalls.ICallBacks {
 
     private lateinit var mPlaces: Places
     private var mPlacesDetails: MutableList<PlaceDetails?> = mutableListOf()
+    private lateinit var mPreferences: SharedPreferences
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -32,6 +34,8 @@ class ListViewFragment : Fragment(), APICalls.ICallBacks {
             location.longitude = preferences.getFloat(PreferenceKeys.PREF_KEY_LNG, 0F).toDouble()
 
             APICalls.fetchPlaces(this, location, 1500, "restaurant", "restaurant", APIConstants.API_KEY)
+
+            mPreferences = preferences
         }
 
         return inflater.inflate(R.layout.fragment_list_view, container, false)
@@ -40,7 +44,7 @@ class ListViewFragment : Fragment(), APICalls.ICallBacks {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        fragment_list_recycler_view_restaurants.adapter = RestaurantRecyclerViewAdapter(emptyList(), emptyList())
+        fragment_list_recycler_view_restaurants.adapter = RestaurantRecyclerViewAdapter(emptyList(), emptyList(), mPreferences, activity)
     }
 
     override fun onResponse(places: Places?) {
@@ -67,7 +71,7 @@ class ListViewFragment : Fragment(), APICalls.ICallBacks {
 
     private fun updateRecyclerView(places: List<Place>, details: List<PlaceDetails?>) {
         fragment_list_recycler_view_restaurants.layoutManager = LinearLayoutManager(activity)
-        val adapter = RestaurantRecyclerViewAdapter(places, details)
+        val adapter = RestaurantRecyclerViewAdapter(places, details, mPreferences, activity)
         fragment_list_recycler_view_restaurants.adapter = adapter
         adapter.notifyDataSetChanged()
     }

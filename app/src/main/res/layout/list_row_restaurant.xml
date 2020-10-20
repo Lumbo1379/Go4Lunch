@@ -28,7 +28,7 @@
         android:layout_marginLeft="15dp"/>
 
     <TextView
-        android:id="@+id/list_row_restaurant_text_type_and_address"
+        android:id="@+id/list_row_restaurant_text_address"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:layout_marginTop="35dp"

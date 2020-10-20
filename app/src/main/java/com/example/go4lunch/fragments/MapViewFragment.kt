@@ -43,6 +43,7 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickL
     private lateinit var mLocationCallback: LocationCallback
     private lateinit var mLocationRequest: LocationRequest
     private var mLocationUpdateState = false
+    private lateinit var mPlaces: Places
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_map_view, container, false)
@@ -77,7 +78,21 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickL
         zoomToCurrentLocation()
     }
 
-    override fun onMarkerClick(p0: Marker?) = false
+    override fun onMarkerClick(p0: Marker?) : Boolean {
+        if (p0 != null) {
+            if (p0.tag != null) {
+                val position = p0.tag.toString().toInt()
+
+                val bottomSheet = RestaurantBottomSheetFragment(mPlaces.results[position])
+
+                if (activity != null) {
+                    bottomSheet.show(activity!!.supportFragmentManager, "restaurantBottomSheet")
+                }
+            }
+        }
+
+        return false
+    }
 
     private fun tryAccessLocation() {
         if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -155,17 +170,21 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickL
         APICalls.fetchPlaces(this, mLastLocation, 1500, "restaurant", "restaurant", APIConstants.API_KEY)
     }
 
-    private fun placeMarker(location: LatLng) {
-        val markerOptions = MarkerOptions().position(location)
-        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(resources, R.drawable.map_restaurant_pin)))
+    private fun placeMarker(location: LatLng, position: Int) {
+        val marker = mMap.addMarker(MarkerOptions()
+            .position(location)
+            .icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(resources, R.drawable.map_restaurant_pin))))
 
-        mMap.addMarker(markerOptions)
+        marker.tag = position
     }
 
     override fun onResponse(places: Places?) {
         if (places != null) {
-            for (place in places.results) {
-                placeMarker(LatLng(place.geometry.location.lat, place.geometry.location.lng))
+
+            mPlaces = places
+
+            for ((index, place) in places.results.withIndex()) {
+                placeMarker(LatLng(place.geometry.location.lat, place.geometry.location.lng), index)
             }
         }
     }
