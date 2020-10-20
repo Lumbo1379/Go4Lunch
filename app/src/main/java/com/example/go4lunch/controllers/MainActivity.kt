@@ -10,6 +10,8 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.go4lunch.R
 import com.example.go4lunch.adapters.RestaurantViewPagerAdapter
 import com.example.go4lunch.utils.APICalls
+import com.firebase.ui.auth.AuthUI
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
@@ -20,6 +22,8 @@ import kotlinx.android.synthetic.main.activity_main_nav_header.view.*
 import kotlinx.android.synthetic.main.toolbar.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+
+    private val SIGN_OUT_TASK = 10;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,7 +74,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         when (item.itemId) {
             R.id.activity_main_drawer_your_lunch -> activity_main_pager_restaurant_view.currentItem = 0
             R.id.activity_main_drawer_settings -> activity_main_pager_restaurant_view.currentItem = 1
-            R.id.activity_main_drawer_logout -> activity_main_pager_restaurant_view.currentItem = 2
+            R.id.activity_main_drawer_logout -> signOutUserFromFirebase()
         }
 
         activity_main.closeDrawer(GravityCompat.START)
@@ -100,5 +104,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         headerLayout.activity_main_nav_header_text_name.text = getCurrentUser()?.displayName
         headerLayout.activity_main_nav_header_text_email.text = getCurrentUser()?.email
+    }
+
+    private fun signOutUserFromFirebase() {
+        AuthUI.getInstance().signOut(this).addOnSuccessListener(this, updateUIAfterRESTRequestsCompleted(SIGN_OUT_TASK))
+    }
+
+    private fun updateUIAfterRESTRequestsCompleted(origin: Int) : OnSuccessListener<Void> {
+        return OnSuccessListener {
+            when (origin) {
+                SIGN_OUT_TASK -> finish()
+            }
+        }
     }
 }

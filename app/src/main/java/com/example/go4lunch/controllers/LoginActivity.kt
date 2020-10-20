@@ -13,6 +13,8 @@ import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.ErrorCodes
 import com.firebase.ui.auth.IdpResponse
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {
@@ -23,14 +25,15 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+        if (FirebaseAuth.getInstance().currentUser != null) {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
         setOnClickListeners()
     }
 
     private fun setOnClickListeners() {
-        activity_login_facebook_login_button.setOnClickListener {
-            startSignInActivity()
-        }
-
         activity_login_google_login_button.setOnClickListener {
             startSignInActivity()
         }
