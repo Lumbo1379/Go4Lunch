@@ -1,5 +1,7 @@
-package com.example.go4lunch.models
+package com.example.go4lunch.models.restaurant
 
+import com.example.go4lunch.models.map.Geometry
+import com.example.go4lunch.models.restaurant.Photos
 import com.google.gson.annotations.SerializedName
 
 data class Place (

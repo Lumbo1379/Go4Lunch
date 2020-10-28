@@ -11,9 +11,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.go4lunch.R
 import com.example.go4lunch.adapters.RestaurantRecyclerViewAdapter
-import com.example.go4lunch.models.Place
-import com.example.go4lunch.models.PlaceDetails
-import com.example.go4lunch.models.Places
+import com.example.go4lunch.models.restaurant.Place
+import com.example.go4lunch.models.restaurant.PlaceDetails
+import com.example.go4lunch.models.restaurant.Places
 import com.example.go4lunch.utils.APICalls
 import com.example.go4lunch.utils.APIConstants
 import com.example.go4lunch.utils.PreferenceKeys

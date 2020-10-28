@@ -6,4 +6,9 @@
     <color name="colorText">#808080</color>
     <color name="colorBottomSheet">#6200EE</color>
     <color name="colorBottomSheetText">#FFFFFF</color>
+
+    <color name="colorGreen">#6BB18C</color>
+    <color name="colorSandLight">#ECDAAF</color>
+    <color name="colorSand">#EBCB94</color>
+    <color name="colorError">#FF5252</color>
 </resources>

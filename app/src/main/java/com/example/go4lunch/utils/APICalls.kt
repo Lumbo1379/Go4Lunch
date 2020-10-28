@@ -3,8 +3,8 @@ package com.example.go4lunch.utils
 import android.content.Context
 import android.location.Location
 import androidx.annotation.Nullable
-import com.example.go4lunch.models.PlaceDetails
-import com.example.go4lunch.models.Places
+import com.example.go4lunch.models.restaurant.PlaceDetails
+import com.example.go4lunch.models.restaurant.Places
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import retrofit2.*

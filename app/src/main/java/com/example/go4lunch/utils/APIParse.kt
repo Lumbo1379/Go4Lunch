@@ -1,7 +1,6 @@
 package com.example.go4lunch.utils
 
-import com.example.go4lunch.models.Period
-import java.lang.Math.abs
+import com.example.go4lunch.models.restaurant.Period
 import java.util.*
 
 

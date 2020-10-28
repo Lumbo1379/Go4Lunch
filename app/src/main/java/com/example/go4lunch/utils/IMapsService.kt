@@ -1,7 +1,7 @@
 package com.example.go4lunch.utils
 
-import com.example.go4lunch.models.PlaceDetails
-import com.example.go4lunch.models.Places
+import com.example.go4lunch.models.restaurant.PlaceDetails
+import com.example.go4lunch.models.restaurant.Places
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

@@ -10,9 +10,9 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.go4lunch.R
 import com.example.go4lunch.fragments.RestaurantBottomSheetFragment
-import com.example.go4lunch.models.Place
-import com.example.go4lunch.models.PlaceDetail
-import com.example.go4lunch.models.PlaceDetails
+import com.example.go4lunch.models.restaurant.Place
+import com.example.go4lunch.models.restaurant.PlaceDetail
+import com.example.go4lunch.models.restaurant.PlaceDetails
 import com.example.go4lunch.utils.APIConstants
 import com.example.go4lunch.utils.APIParse
 import com.example.go4lunch.utils.Maths

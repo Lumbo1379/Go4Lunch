@@ -1,8 +1,8 @@
-package com.example.go4lunch.models
+package com.example.go4lunch.models.map
 
 import com.google.gson.annotations.SerializedName
 
-data class Location (
+data class Northeast (
 
     @SerializedName("lat") val lat : Double,
     @SerializedName("lng") val lng : Double

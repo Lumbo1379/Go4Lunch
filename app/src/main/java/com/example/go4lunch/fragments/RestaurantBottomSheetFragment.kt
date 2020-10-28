@@ -1,20 +1,17 @@
 package com.example.go4lunch.fragments
 
-import android.graphics.Color
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.go4lunch.R
-import com.example.go4lunch.models.Place
-import com.example.go4lunch.models.PlaceDetail
+import com.example.go4lunch.models.restaurant.Place
 import com.example.go4lunch.utils.APIConstants
 import com.example.go4lunch.utils.APIParse
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.bottom_sheet_restaurant.view.*
-import kotlinx.android.synthetic.main.list_row_restaurant.view.*
 
 class RestaurantBottomSheetFragment : BottomSheetDialogFragment {
 
