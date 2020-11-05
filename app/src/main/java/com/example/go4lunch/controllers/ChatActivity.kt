@@ -14,10 +14,14 @@ import com.example.go4lunch.helpers.UserHelper
 import com.example.go4lunch.models.Message
 import com.example.go4lunch.models.User
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.Query
 import kotlinx.android.synthetic.main.activity_chat.*
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.bottom_sheet_restaurant.*
 
 class ChatActivity : AppCompatActivity(), ChatAdapter.IListener {
 

@@ -40,7 +40,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         attachNavigationView()
         attachTabLayout()
 
-        createUserInFirestore()
+        val intent = intent
+        if (intent.getBooleanExtra("newUser", true)) {
+            createUserInFirestore()
+        }
+
         updateProfileUI()
 
         //UserHelper.createTestUserAccounts()
@@ -68,9 +72,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun attachTabLayout() {
         TabLayoutMediator(activity_main_tab_layout, activity_main_pager_restaurant_view) { tab, position ->
             when (position) {
-                0 -> tab.text = "Map View"
-                1 -> tab.text = "List View"
-                2 -> tab.text = "Workmates"
+                0 -> {
+                    tab.text = "Map View"
+                    tab.setIcon(R.drawable.baseline_map_black_18dp)
+                }
+                1 -> {
+                    tab.text = "List View"
+                    tab.setIcon(R.drawable.baseline_list_black_18dp)
+                }
+                2 -> {
+                    tab.text = "Workmates"
+                    tab.setIcon(R.drawable.baseline_supervisor_account_black_18dp)
+                }
             }
         }.attach()
     }

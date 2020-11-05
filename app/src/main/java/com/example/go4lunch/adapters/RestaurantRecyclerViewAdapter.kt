@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.go4lunch.R
 import com.example.go4lunch.fragments.RestaurantBottomSheetFragment
+import com.example.go4lunch.helpers.UserHelper
 import com.example.go4lunch.models.restaurant.Place
 import com.example.go4lunch.models.restaurant.PlaceDetail
 import com.example.go4lunch.models.restaurant.PlaceDetails
@@ -55,7 +56,7 @@ class RestaurantRecyclerViewAdapter : RecyclerView.Adapter<RestaurantRecyclerVie
         holder.itemView.setOnClickListener {
             val position = it.tag.toString().toInt()
 
-            val bottomSheet = RestaurantBottomSheetFragment(mPlaces[position])
+            val bottomSheet = RestaurantBottomSheetFragment(mPlaces[position], mDetails[position]?.result!!)
 
             if (mActivity != null) {
                 bottomSheet.show(mActivity!!.supportFragmentManager, "restaurantBottomSheet")
@@ -100,6 +101,19 @@ class RestaurantRecyclerViewAdapter : RecyclerView.Adapter<RestaurantRecyclerVie
             Picasso.get().load("https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=" + place.photos[0].photo_reference + "&key=" + APIConstants.API_KEY).into(itemView.list_row_restaurant_image_snapshot)
 
             itemView.list_row_restaurant_text_distance.text = Maths.latLngDistance(place.geometry.location.lat, place.geometry.location.lng, preferences).roundToInt().toString() + "m"
+
+            UserHelper.getUsers(place.place_id).get().addOnSuccessListener {
+
+                if (!it.isEmpty) {
+                    itemView.list_row_restaurant_text_coworkers.visibility = View.VISIBLE
+                    itemView.list_row_restaurant_image_coworkers.visibility = View.VISIBLE
+                    itemView.list_row_restaurant_text_coworkers.text = "(" + it.size() + ")"
+                } else {
+                    itemView.list_row_restaurant_text_coworkers.visibility = View.INVISIBLE
+                    itemView.list_row_restaurant_image_coworkers.visibility = View.INVISIBLE
+                }
+
+            }
         }
     }
 }

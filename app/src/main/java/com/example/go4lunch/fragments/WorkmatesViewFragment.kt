@@ -42,7 +42,7 @@ class WorkmatesViewFragment : Fragment(), WorkmatesAdapter.IListener {
 
     private fun configureRecyclerView() {
         //Configure Adapter & RecyclerView
-        workmatesAdapter = WorkmatesAdapter(generateOptionsForAdapter(UserHelper.getUsers()), Glide.with(this), this)
+        workmatesAdapter = WorkmatesAdapter(generateOptionsForAdapter(UserHelper.getUsers()), Glide.with(this), this, false)
 
         fragment_workmates_recycler_view_workmates.layoutManager = LinearLayoutManager(context)
         fragment_workmates_recycler_view_workmates.adapter = workmatesAdapter

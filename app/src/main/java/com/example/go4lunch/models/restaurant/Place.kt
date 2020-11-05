@@ -11,5 +11,6 @@ data class Place (
     @SerializedName("photos") val photos : List<Photos>,
     @SerializedName("place_id") val place_id : String,
     @SerializedName("rating") val rating : Double,
-    @SerializedName("vicinity") val vicinity : String
+    @SerializedName("vicinity") val vicinity : String,
+    @SerializedName("opening_hours") val open : OpeningHours
 )

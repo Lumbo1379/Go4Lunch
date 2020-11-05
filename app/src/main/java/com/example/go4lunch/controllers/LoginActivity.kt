@@ -27,6 +27,7 @@ class LoginActivity : AppCompatActivity() {
 
         if (FirebaseAuth.getInstance().currentUser != null) {
             val intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("newUser", false)
             startActivity(intent)
         }
 

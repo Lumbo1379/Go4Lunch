@@ -25,7 +25,8 @@
         android:layout_width="wrap_content"
         android:layout_marginTop="40dp"
         android:layout_marginStart="15dp"
-        android:textSize="20sp"
+        android:textSize="15sp"
+        android:textColor="@color/colorBlack"
         android:layout_toEndOf="@id/list_row_workmate_image_portrait"/>
 
 </RelativeLayout>

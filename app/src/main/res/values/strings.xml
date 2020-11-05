@@ -25,4 +25,9 @@
     <string name="text_view_chat_error">This discussion thread does not currently contain any messages&#8230;</string>
     <string name="popup_title_permission_files_access">This app needs permission to work.</string>
     <string name="toast_title_no_image_chosen">No image chosen&#8230;</string>
+
+    <!-- Bottom Sheet -->
+    <string name="call">Call</string>
+    <string name="like">Like</string>
+    <string name="website">Website</string>
 </resources>

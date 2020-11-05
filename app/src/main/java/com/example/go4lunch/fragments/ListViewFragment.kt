@@ -51,7 +51,7 @@ class ListViewFragment : Fragment(), APICalls.ICallBacks {
         if (places != null) {
             mPlaces = places
 
-            APICalls.fetchPlaceDetails(this, mPlaces.results[0].place_id, "opening_hours", APIConstants.API_KEY)
+            APICalls.fetchPlaceDetails(this, mPlaces.results[0].place_id, "opening_hours,formatted_phone_number,website", APIConstants.API_KEY)
         }
     }
 
@@ -61,7 +61,7 @@ class ListViewFragment : Fragment(), APICalls.ICallBacks {
             if (mPlacesDetails.size == mPlaces.results.size) {
                 updateRecyclerView(mPlaces.results, mPlacesDetails)
             } else {
-                APICalls.fetchPlaceDetails(this, mPlaces.results[mPlacesDetails.size].place_id, "opening_hours", APIConstants.API_KEY)
+                APICalls.fetchPlaceDetails(this, mPlaces.results[mPlacesDetails.size].place_id, "opening_hours,formatted_phone_number,website", APIConstants.API_KEY)
             }
     }
 

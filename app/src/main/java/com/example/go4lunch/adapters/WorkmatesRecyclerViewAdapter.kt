@@ -1,6 +1,7 @@
 package com.example.go4lunch.adapters
 
 import android.content.Intent
+import android.graphics.Typeface
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
@@ -14,10 +15,21 @@ import kotlinx.android.synthetic.main.list_row_workmate.view.*
 
 class WorkmatesRecyclerViewAdapter(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-    fun updateWithWorkmate(workmate: User, glide: RequestManager) {
+    fun updateWithWorkmate(workmate: User, glide: RequestManager, inRestaurant: Boolean) {
 
-        // Update status TextView
-        itemView.list_row_workmate_text_status.text = workmate.displayName
+        if (inRestaurant) {
+            itemView.list_row_workmate_text_status.text = workmate.displayName +  " is joining!"
+        } else {
+            if (workmate.restaurantName == "") {
+                itemView.list_row_workmate_text_status.setTextColor(itemView.context.resources.getColor(R.color.colorText))
+                itemView.list_row_workmate_text_status.setTypeface(null, Typeface.ITALIC)
+                itemView.list_row_workmate_text_status.text = workmate.displayName + " hasn't decided yet"
+            } else {
+                itemView.list_row_workmate_text_status.setTextColor(itemView.context.resources.getColor(R.color.colorBlack))
+                itemView.list_row_workmate_text_status.setTypeface(null, Typeface.NORMAL)
+                itemView.list_row_workmate_text_status.text = workmate.displayName + " is eating at " + workmate.restaurantName
+            }
+        }
 
         //Update profile picture ImageView
         glide.load(workmate.urlPicture)

@@ -8,6 +8,7 @@ import com.example.go4lunch.models.Message
 import com.example.go4lunch.models.User
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import kotlin.math.min
 
 class WorkmatesAdapter: FirestoreRecyclerAdapter<User, WorkmatesRecyclerViewAdapter> {
     interface IListener {
@@ -16,10 +17,12 @@ class WorkmatesAdapter: FirestoreRecyclerAdapter<User, WorkmatesRecyclerViewAdap
 
     private val callback: IListener
     private val glide: RequestManager
+    private val mInRestaurant: Boolean
 
-    constructor(options: FirestoreRecyclerOptions<User>, glide: RequestManager, callback: IListener) : super(options) {
+    constructor(options: FirestoreRecyclerOptions<User>, glide: RequestManager, callback: IListener, inRestaurant: Boolean) : super(options) {
         this.callback = callback
         this.glide = glide
+        mInRestaurant = inRestaurant
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WorkmatesRecyclerViewAdapter {
@@ -27,7 +30,7 @@ class WorkmatesAdapter: FirestoreRecyclerAdapter<User, WorkmatesRecyclerViewAdap
     }
 
     override fun onBindViewHolder(holder: WorkmatesRecyclerViewAdapter, position: Int, model: User) {
-        holder.updateWithWorkmate(model, glide)
+        holder.updateWithWorkmate(model, glide, mInRestaurant)
     }
 
     override fun onDataChanged() {

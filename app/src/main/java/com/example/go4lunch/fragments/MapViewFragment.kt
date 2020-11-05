@@ -16,6 +16,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.example.go4lunch.R
+import com.example.go4lunch.helpers.UserHelper
 import com.example.go4lunch.models.restaurant.PlaceDetails
 import com.example.go4lunch.models.restaurant.Places
 import com.example.go4lunch.utils.APICalls
@@ -44,6 +45,7 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickL
     private lateinit var mLocationRequest: LocationRequest
     private var mLocationUpdateState = false
     private lateinit var mPlaces: Places
+    private var mLastClickedPosition: Int = -1
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_map_view, container, false)
@@ -83,11 +85,9 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickL
             if (p0.tag != null) {
                 val position = p0.tag.toString().toInt()
 
-                val bottomSheet = RestaurantBottomSheetFragment(mPlaces.results[position])
+                mLastClickedPosition = position
 
-                if (activity != null) {
-                    bottomSheet.show(activity!!.supportFragmentManager, "restaurantBottomSheet")
-                }
+                APICalls.fetchPlaceDetails(this, mPlaces.results[position].place_id, "opening_hours,formatted_phone_number,website", APIConstants.API_KEY)
             }
         }
 
@@ -170,12 +170,37 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickL
         APICalls.fetchPlaces(this, mLastLocation, 1500, "restaurant", "restaurant", APIConstants.API_KEY)
     }
 
-    private fun placeMarker(location: LatLng, position: Int) {
-        val marker = mMap.addMarker(MarkerOptions()
-            .position(location)
-            .icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(resources, R.drawable.map_restaurant_pin))))
+    private fun placeMarker(location: LatLng, position: Int, occupied: Boolean) {
 
-        marker.tag = position
+        if (occupied) {
+            val marker = mMap.addMarker(
+                MarkerOptions()
+                    .position(location)
+                    .icon(
+                        BitmapDescriptorFactory.fromBitmap(
+                            BitmapFactory.decodeResource(
+                                resources,
+                                R.drawable.map_restaurant_pin_occupied
+                            )
+                        )
+                    )
+            )
+            marker.tag = position
+        } else {
+            val marker = mMap.addMarker(
+                MarkerOptions()
+                    .position(location)
+                    .icon(
+                        BitmapDescriptorFactory.fromBitmap(
+                            BitmapFactory.decodeResource(
+                                resources,
+                                R.drawable.map_restaurant_pin
+                            )
+                        )
+                    )
+            )
+            marker.tag = position
+        }
     }
 
     override fun onResponse(places: Places?) {
@@ -184,13 +209,26 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickL
             mPlaces = places
 
             for ((index, place) in places.results.withIndex()) {
-                placeMarker(LatLng(place.geometry.location.lat, place.geometry.location.lng), index)
+                if (place.open != null && place.open.openNow) { // Can be null sometimes
+
+                    UserHelper.getUsers(place.place_id).get().addOnCompleteListener {
+                        if (it.result?.size()!! > 0) {
+                            placeMarker(LatLng(place.geometry.location.lat, place.geometry.location.lng), index, true)
+                        } else {
+                            placeMarker(LatLng(place.geometry.location.lat, place.geometry.location.lng), index, false)
+                        }
+                    }
+                }
             }
         }
     }
 
     override fun onResponse(place: PlaceDetails?) {
+        val bottomSheet = RestaurantBottomSheetFragment(mPlaces.results[mLastClickedPosition], place?.result!!)
 
+        if (activity != null) {
+            bottomSheet.show(activity!!.supportFragmentManager, "restaurantBottomSheet")
+        }
     }
 
     override fun onFailure() {
