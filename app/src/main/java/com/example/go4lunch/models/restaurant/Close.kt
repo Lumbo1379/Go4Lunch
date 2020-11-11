@@ -1,4 +1,4 @@
-package com.example.go4lunch.models.map
+package com.example.go4lunch.models.restaurant
 
 import com.google.gson.annotations.SerializedName
 

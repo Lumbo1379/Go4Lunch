@@ -224,8 +224,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return false;
     }
 
-    private fun getCurrentUser(): FirebaseUser {
-        return FirebaseAuth.getInstance().currentUser!!
+    private fun getCurrentUser(): FirebaseUser? {
+        val fb = FirebaseAuth.getInstance()
+
+        return FirebaseAuth.getInstance().currentUser
     }
 
     private fun onFailureListener(): OnFailureListener {
@@ -235,25 +237,30 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun createUserInFirestore() {
-        val urlPicture = getCurrentUser().photoUrl.toString()
-        val displayName = getCurrentUser().displayName!!
-        val uid = getCurrentUser().uid
+        val user = getCurrentUser()
 
-        UserHelper.createUser(uid, displayName, urlPicture).addOnFailureListener(onFailureListener())
+        if (user != null) {
+            val urlPicture = user.photoUrl.toString()
+            val displayName = user.displayName!!
+            val uid = user.uid
+
+            UserHelper.createUser(uid, displayName, urlPicture)
+                .addOnFailureListener(onFailureListener())
+        }
     }
 
     private fun updateProfileUI() {
         val headerLayout = activity_main_nav_view.getHeaderView(0)
 
-        if (getCurrentUser().photoUrl != null) {
+        if (getCurrentUser()?.photoUrl != null) {
             Glide.with(this)
-                .load(getCurrentUser().photoUrl)
+                .load(getCurrentUser()?.photoUrl)
                 .apply(RequestOptions.circleCropTransform())
                 .into(headerLayout.activity_main_nav_header_profile_picture)
         }
 
-        headerLayout.activity_main_nav_header_text_name.text = getCurrentUser().displayName
-        headerLayout.activity_main_nav_header_text_email.text = getCurrentUser().email
+        headerLayout.activity_main_nav_header_text_name.text = getCurrentUser()?.displayName
+        headerLayout.activity_main_nav_header_text_email.text = getCurrentUser()?.email
     }
 
     private fun signOutUserFromFirebase() {
