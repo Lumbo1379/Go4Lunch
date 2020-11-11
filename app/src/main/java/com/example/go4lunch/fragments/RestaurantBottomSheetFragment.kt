@@ -86,7 +86,7 @@ class RestaurantBottomSheetFragment : BottomSheetDialogFragment, WorkmatesAdapte
         return displayMetrics.heightPixels
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? { // Populate view
         val view = inflater.inflate(R.layout.bottom_sheet_restaurant, container, false)
 
         view.bottom_sheet_restaurant_image_rectangle.setBackgroundColor(view.resources.getColor(R.color.colorBottomSheet))
@@ -116,7 +116,7 @@ class RestaurantBottomSheetFragment : BottomSheetDialogFragment, WorkmatesAdapte
         configureRecyclerView()
     }
 
-    private fun initFloatingActionButton() {
+    private fun initFloatingActionButton() { // Handle if person is going there or not
 
         if (mUser.restaurantId == mRestaurantId) {
             bottom_sheet_restaurant_floating_action_button.setImageResource(R.drawable.baseline_done_black_18dp)
@@ -126,12 +126,12 @@ class RestaurantBottomSheetFragment : BottomSheetDialogFragment, WorkmatesAdapte
             bottom_sheet_restaurant_floating_action_button.tag = 0
         }
 
-        bottom_sheet_restaurant_floating_action_button.setOnClickListener {
+        bottom_sheet_restaurant_floating_action_button.setOnClickListener { // Swap status when clicked and update database
             if (bottom_sheet_restaurant_floating_action_button.tag == 1) {
                 bottom_sheet_restaurant_floating_action_button.setImageResource(R.drawable.baseline_close_black_18dp)
                 bottom_sheet_restaurant_floating_action_button.tag = 0
 
-                UserHelper.updateLunchDestination("", "", getCurrentUser().uid, "")
+                UserHelper.updateLunchDestination("", "", getCurrentUser().uid, "") // Remove lunch
 
                 val prefs = context?.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
 
@@ -167,7 +167,7 @@ class RestaurantBottomSheetFragment : BottomSheetDialogFragment, WorkmatesAdapte
         bottom_sheet_restaurant_recycler_view_workmates.adapter = workmatesAdapter
     }
 
-    private fun generateOptionsForAdapter(query: Query): FirestoreRecyclerOptions<User> {
+    private fun generateOptionsForAdapter(query: Query): FirestoreRecyclerOptions<User> { // Show workmates going to this restaurant
         return FirestoreRecyclerOptions.Builder<User>()
             .setQuery(query, User::class.java)
             .setLifecycleOwner(this)
@@ -178,7 +178,7 @@ class RestaurantBottomSheetFragment : BottomSheetDialogFragment, WorkmatesAdapte
         val tabLayout = bottom_sheet_tab_layout
 
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabReselected(tab: TabLayout.Tab?) {
+            override fun onTabReselected(tab: TabLayout.Tab?) { // Redo action if currently selected then repressed
                 if (tab != null) {
                     when (tab.position) {
                         0 -> {
@@ -201,7 +201,7 @@ class RestaurantBottomSheetFragment : BottomSheetDialogFragment, WorkmatesAdapte
 
             }
 
-            override fun onTabSelected(tab: TabLayout.Tab?) {
+            override fun onTabSelected(tab: TabLayout.Tab?) { // Call, like, website buttons
                 if (tab != null) {
                     when (tab.position) {
                         0 -> {

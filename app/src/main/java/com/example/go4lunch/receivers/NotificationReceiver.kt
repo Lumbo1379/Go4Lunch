@@ -57,7 +57,7 @@ class NotificationReceiver : BroadcastReceiver() {
                         }
                     }
 
-                    sendLunchNotification(modelCurrentUser.restaurantName, modelCurrentUser.restaurantAddress, workmatesGoing)
+                    sendLunchNotification(modelCurrentUser.restaurantName, modelCurrentUser.restaurantAddress, workmatesGoing) // Send notification with where, street and with who
                 }
             }
         }

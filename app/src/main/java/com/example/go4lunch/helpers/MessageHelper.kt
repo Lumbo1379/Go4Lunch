@@ -27,6 +27,8 @@ class MessageHelper {
             }
         }
 
+        // --Create--
+
         fun createMessageForChat(textMessage: String, receiverId: String , userSender: User): Task<DocumentReference> {
             val message = Message(textMessage, userSender)
 

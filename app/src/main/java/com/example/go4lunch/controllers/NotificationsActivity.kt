@@ -57,7 +57,7 @@ class NotificationsActivity : AppCompatActivity() {
             }
         }
 
-        fun changeLang(baseContext: Context, langCode: String) {
+        fun changeLang(baseContext: Context, langCode: String) { // Swap string file
             val locale = Locale(langCode)
             Locale.setDefault(locale)
 

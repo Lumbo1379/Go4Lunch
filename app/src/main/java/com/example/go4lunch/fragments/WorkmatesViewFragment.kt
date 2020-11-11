@@ -41,7 +41,7 @@ class WorkmatesViewFragment : Fragment(), WorkmatesAdapter.IListener, IFragment 
         configureRecyclerView()
     }
 
-    private fun configureRecyclerView() {
+    private fun configureRecyclerView() { // Populate with wormates
         //Configure Adapter & RecyclerView
         workmatesAdapter = WorkmatesAdapter(generateOptionsForAdapter(UserHelper.getUsers()), Glide.with(this), this, false)
 

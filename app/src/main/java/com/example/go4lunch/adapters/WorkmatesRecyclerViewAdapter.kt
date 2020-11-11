@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.list_row_workmate.view.*
 
 class WorkmatesRecyclerViewAdapter(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-    fun updateWithWorkmate(workmate: User, glide: RequestManager, inRestaurant: Boolean) {
+    fun updateWithWorkmate(workmate: User, glide: RequestManager, inRestaurant: Boolean) { // Populate view
 
         if (inRestaurant) {
             itemView.list_row_workmate_text_status.text = workmate.displayName +  itemView.context.getString(R.string.is_joining)

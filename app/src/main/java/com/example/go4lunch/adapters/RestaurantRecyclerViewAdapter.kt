@@ -53,7 +53,7 @@ class RestaurantRecyclerViewAdapter : RecyclerView.Adapter<RestaurantRecyclerVie
         holder.updateWithRestaurant(mPlaces[position], mDetails[position]?.result, mPreferences)
         holder.itemView.tag = position
 
-        holder.itemView.setOnClickListener {
+        holder.itemView.setOnClickListener { // Set up even to trigger swipeable restaurant details
             val position = it.tag.toString().toInt()
 
             val bottomSheet = RestaurantBottomSheetFragment(mPlaces[position], mDetails[position]?.result!!, mActivity!!.applicationContext)
@@ -64,7 +64,7 @@ class RestaurantRecyclerViewAdapter : RecyclerView.Adapter<RestaurantRecyclerVie
         }
     }
 
-    private fun removeClosedRestaurants() {
+    private fun removeClosedRestaurants() { // Don't show closed restaurants
         var i = 0
 
         while (i < mPlaces.size) {
@@ -77,14 +77,14 @@ class RestaurantRecyclerViewAdapter : RecyclerView.Adapter<RestaurantRecyclerVie
         }
     }
 
-    fun clear() {
+    fun clear() { // Reset view, use when switching languages
         val size = mPlaces.size
         mPlaces.clear()
         mDetails.clear()
         notifyDataSetChanged()
     }
 
-    class RestaurantViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class RestaurantViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) { // Populate view
         fun updateWithRestaurant(place: Place, details: PlaceDetail?, preferences: SharedPreferences) {
             itemView.list_row_restaurant_text_name.text = place.name
             itemView.list_row_restaurant_text_address.text = APIParse.parseAddress(place.vicinity)

@@ -13,7 +13,7 @@ import kotlin.collections.HashMap
 
 class RestaurantViewPagerAdapter(@NonNull fragmentActivity: FragmentActivity) : FragmentStateAdapter(fragmentActivity) {
 
-    var mFragments: HashMap<Int, IFragment> = hashMapOf()
+    var mFragments: HashMap<Int, IFragment> = hashMapOf() // For setting specific search query
 
     override fun getItemCount(): Int {
         return 3

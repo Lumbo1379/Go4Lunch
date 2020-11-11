@@ -57,7 +57,7 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickL
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(mContext)
 
-        mLocationCallback = object : LocationCallback() {
+        mLocationCallback = object : LocationCallback() { // Has person moved
             override fun onLocationResult(p0: LocationResult) {
                 super.onLocationResult(p0)
 
@@ -125,7 +125,7 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickL
 
                 getRestaurants("restaurant")
             } else {
-                zoomToCurrentLocation()
+                zoomToCurrentLocation() // Return null when phone first starts so trying zooming to location again
             }
         }
     }
@@ -173,7 +173,7 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickL
         APICalls.fetchPlaces(this, mLastLocation, 1500, "restaurant", keyword, APIConstants.API_KEY)
     }
 
-    private fun placeMarker(location: LatLng, position: Int, occupied: Boolean) {
+    private fun placeMarker(location: LatLng, position: Int, occupied: Boolean) { // Place marker based on if someone is eating there or not
 
         if (occupied) {
             val marker = mMap.addMarker(
@@ -260,7 +260,7 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickL
         }
     }
 
-    override fun setSearchQuery(query: String) {
+    override fun setSearchQuery(query: String) { // Clear markers then search
         mMap.clear()
 
         getRestaurants(query)

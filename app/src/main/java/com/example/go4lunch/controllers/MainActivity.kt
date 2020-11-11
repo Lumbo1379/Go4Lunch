@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         configureSearchBar()
 
         val intent = intent
-        if (intent.getBooleanExtra("newUser", true)) {
+        if (intent.getBooleanExtra("newUser", true)) { // Check if user needs to be added to database or not
             createUserInFirestore()
         }
 
@@ -92,7 +92,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_activity_main, menu)
+        menuInflater.inflate(R.menu.menu_activity_main, menu) // Search button
 
         return true
     }
@@ -130,7 +130,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     }
                 }
                 AutocompleteActivity.RESULT_ERROR -> {
-                    // TODO: Handle the error.
                     data?.let {
                         val status = Autocomplete.getStatusFromIntent(data)
                         Log.i("PLACE ERROR", status.statusMessage)
@@ -172,7 +171,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         activity_main_nav_view.setNavigationItemSelectedListener(this)
     }
 
-    private fun attachTabLayout() {
+    private fun attachTabLayout() { // Set view pager icons and text
         TabLayoutMediator(activity_main_tab_layout, activity_main_pager_restaurant_view) { tab, position ->
             when (position) {
                 0 -> {
@@ -191,13 +190,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }.attach()
     }
 
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+    override fun onNavigationItemSelected(item: MenuItem): Boolean { // Open bottom sheet with lunch saved in prefs
         when (item.itemId) {
             R.id.activity_main_drawer_your_lunch -> {
                 val prefs = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
 
                 val gson = Gson()
-                val jsonPlace = prefs.getString("LunchPlace", "")
+                val jsonPlace = prefs.getString("LunchPlace", "") // Save object in prefs
                 val jsonDetail = prefs.getString("LunchDetail", "")
 
                 if (jsonPlace == "" || jsonDetail == "") {
@@ -249,7 +248,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
-    private fun updateProfileUI() {
+    private fun updateProfileUI() { // UI in navigation drawer
         val headerLayout = activity_main_nav_view.getHeaderView(0)
 
         if (getCurrentUser()?.photoUrl != null) {
@@ -293,7 +292,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
-    override fun onResume() {
+    override fun onResume() { // Checking if lang has changed or reentry
         super.onResume()
 
         val pref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)

@@ -42,7 +42,7 @@ class ChatActivity : AppCompatActivity(), ChatAdapter.IListener {
         setOnClickEvents()
     }
 
-    override fun onDataChanged() {
+    override fun onDataChanged() { // Hide recycler view when no chates
         activity_chat_text_view_recycler_view_empty.visibility = if (chatAdapter.itemCount == 0) View.VISIBLE else View.GONE
     }
 
@@ -50,12 +50,12 @@ class ChatActivity : AppCompatActivity(), ChatAdapter.IListener {
         if (!TextUtils.isEmpty(activity_chat_message_edit_text.text) && modelCurrentUser != null) {
             MessageHelper.createMessageForChat(activity_chat_message_edit_text.text.toString(), receiverId, modelCurrentUser)
 
-            activity_chat_message_edit_text.setText("")
+            activity_chat_message_edit_text.setText("") // Clear text input
         }
     }
 
     private fun onClickAddFile() {
-
+        // Not used
     }
 
     private fun getCurrentUserFromFirestore() {

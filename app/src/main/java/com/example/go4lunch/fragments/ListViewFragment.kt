@@ -32,7 +32,7 @@ class ListViewFragment : Fragment(), APICalls.ICallBacks, IFragment {
 
         val preferences = activity?.getPreferences(Context.MODE_PRIVATE)
         if (preferences != null) {
-            val location = Location("dummy")
+            val location = Location("dummy") // Get location set in map view fragment
             location.latitude = preferences.getFloat(PreferenceKeys.PREF_KEY_LAT, 0F).toDouble()
             location.longitude = preferences.getFloat(PreferenceKeys.PREF_KEY_LNG, 0F).toDouble()
 
@@ -63,7 +63,7 @@ class ListViewFragment : Fragment(), APICalls.ICallBacks, IFragment {
     override fun onResponse(place: PlaceDetails?) {
             mPlacesDetails.add(place)
 
-            if (mPlacesDetails.size == mPlaces.results.size) {
+            if (mPlacesDetails.size == mPlaces.results.size) { // Foreach place get the details
                 updateRecyclerView(mPlaces.results, mPlacesDetails)
             } else {
                 APICalls.fetchPlaceDetails(this, mPlaces.results[mPlacesDetails.size].place_id, "opening_hours,formatted_phone_number,website", APIConstants.API_KEY)
@@ -78,10 +78,10 @@ class ListViewFragment : Fragment(), APICalls.ICallBacks, IFragment {
         fragment_list_recycler_view_restaurants.layoutManager = LinearLayoutManager(activity)
         mAdapter = RestaurantRecyclerViewAdapter(places, details, mPreferences, activity)
         fragment_list_recycler_view_restaurants.adapter = mAdapter
-        mAdapter.notifyDataSetChanged()
+        mAdapter.notifyDataSetChanged() // For clearing then repopulating when searching
     }
 
-    override fun setSearchQuery(query: String) {
+    override fun setSearchQuery(query: String) { // Update search query
         mAdapter.clear()
         mPlacesDetails.clear()
 

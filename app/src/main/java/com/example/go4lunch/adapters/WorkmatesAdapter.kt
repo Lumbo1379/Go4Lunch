@@ -29,7 +29,7 @@ class WorkmatesAdapter: FirestoreRecyclerAdapter<User, WorkmatesRecyclerViewAdap
         return WorkmatesRecyclerViewAdapter(LayoutInflater.from(parent.context).inflate(R.layout.list_row_workmate, parent, false))
     }
 
-    override fun onBindViewHolder(holder: WorkmatesRecyclerViewAdapter, position: Int, model: User) {
+    override fun onBindViewHolder(holder: WorkmatesRecyclerViewAdapter, position: Int, model: User) { // Populate with workmates
         holder.updateWithWorkmate(model, glide, mInRestaurant)
     }
 

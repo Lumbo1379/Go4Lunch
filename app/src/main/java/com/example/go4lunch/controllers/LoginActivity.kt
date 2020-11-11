@@ -27,7 +27,7 @@ class LoginActivity : AppCompatActivity() {
 
         if (FirebaseAuth.getInstance().currentUser != null) {
             val intent = Intent(this, MainActivity::class.java)
-            intent.putExtra("newUser", false)
+            intent.putExtra("newUser", false) // Use does not need to be readded to database
             startActivity(intent)
         }
 
@@ -62,12 +62,12 @@ class LoginActivity : AppCompatActivity() {
         val response = IdpResponse.fromResultIntent(data)
 
         if (requestCode == RC_SIGN_IN) {
-            if (resultCode == Activity.RESULT_OK) {
+            if (resultCode == Activity.RESULT_OK) { // Successful login
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
             } else {
                 when {
-                    response == null -> {
+                    response == null -> { // Back out, back button
                         showSnackBar(activity_login_linear_layout, getString(R.string.error_auth_cancelled))
                     }
                     response.error?.errorCode == ErrorCodes.NO_NETWORK -> {

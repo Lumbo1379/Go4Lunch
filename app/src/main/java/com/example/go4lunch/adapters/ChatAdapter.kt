@@ -27,7 +27,7 @@ class ChatAdapter : FirestoreRecyclerAdapter<Message, MessageRecyclerViewAdapter
         return MessageRecyclerViewAdapter(LayoutInflater.from(parent.context).inflate(R.layout.list_row_chat, parent, false))
     }
 
-    override fun onBindViewHolder(holder: MessageRecyclerViewAdapter, position: Int, model: Message) {
+    override fun onBindViewHolder(holder: MessageRecyclerViewAdapter, position: Int, model: Message) {  // Populate with chats
         holder.updateWithMessage(model, idCurrentUser, glide)
     }
 
