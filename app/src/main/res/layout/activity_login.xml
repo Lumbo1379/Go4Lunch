@@ -25,6 +25,14 @@
             android:layout_height="wrap_content"
             android:src="@drawable/logo"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/find_a_nice_restaurant_and_invite_your_co_workers_for_lunch"
+            android:textColor="#FFFFFF"
+            android:layout_gravity="center"
+            android:textStyle="italic"/>
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/activity_login_facebook_login_button"
             android:layout_width="fill_parent"
@@ -33,7 +41,7 @@
             android:drawableStart="@drawable/ic_btn_login_facebook"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            android:text="Continue with Facebook"
+            android:text="@string/continue_with_facebook"
             android:textColor="#fff"
             app:backgroundTint="#3b5998"/>
 
@@ -45,7 +53,7 @@
             android:drawableStart="@drawable/ic_btn_login_google"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            android:text="Continue with Google"
+            android:text="@string/continue_with_google"
             app:backgroundTint="#ffffff" />
 
     </LinearLayout>

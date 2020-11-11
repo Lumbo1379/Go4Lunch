@@ -16,14 +16,17 @@ import com.example.go4lunch.models.restaurant.PlaceDetails
 import com.example.go4lunch.models.restaurant.Places
 import com.example.go4lunch.utils.APICalls
 import com.example.go4lunch.utils.APIConstants
+import com.example.go4lunch.utils.IFragment
 import com.example.go4lunch.utils.PreferenceKeys
 import kotlinx.android.synthetic.main.fragment_list_view.*
 
-class ListViewFragment : Fragment(), APICalls.ICallBacks {
+class ListViewFragment : Fragment(), APICalls.ICallBacks, IFragment {
 
     private lateinit var mPlaces: Places
     private var mPlacesDetails: MutableList<PlaceDetails?> = mutableListOf()
     private lateinit var mPreferences: SharedPreferences
+    private lateinit var mLocation: Location
+    private lateinit var mAdapter: RestaurantRecyclerViewAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -32,6 +35,8 @@ class ListViewFragment : Fragment(), APICalls.ICallBacks {
             val location = Location("dummy")
             location.latitude = preferences.getFloat(PreferenceKeys.PREF_KEY_LAT, 0F).toDouble()
             location.longitude = preferences.getFloat(PreferenceKeys.PREF_KEY_LNG, 0F).toDouble()
+
+            mLocation = location
 
             APICalls.fetchPlaces(this, location, 1500, "restaurant", "restaurant", APIConstants.API_KEY)
 
@@ -71,8 +76,15 @@ class ListViewFragment : Fragment(), APICalls.ICallBacks {
 
     private fun updateRecyclerView(places: List<Place>, details: List<PlaceDetails?>) {
         fragment_list_recycler_view_restaurants.layoutManager = LinearLayoutManager(activity)
-        val adapter = RestaurantRecyclerViewAdapter(places, details, mPreferences, activity)
-        fragment_list_recycler_view_restaurants.adapter = adapter
-        adapter.notifyDataSetChanged()
+        mAdapter = RestaurantRecyclerViewAdapter(places, details, mPreferences, activity)
+        fragment_list_recycler_view_restaurants.adapter = mAdapter
+        mAdapter.notifyDataSetChanged()
+    }
+
+    override fun setSearchQuery(query: String) {
+        mAdapter.clear()
+        mPlacesDetails.clear()
+
+        APICalls.fetchPlaces(this, mLocation, 1500, "restaurant", query, APIConstants.API_KEY)
     }
 }

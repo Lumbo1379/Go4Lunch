@@ -2,6 +2,7 @@ package com.example.go4lunch.fragments
 
 import android.app.Activity
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -31,6 +32,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.Query
+import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.bottom_sheet_restaurant.*
 import kotlinx.android.synthetic.main.bottom_sheet_restaurant.view.*
@@ -40,14 +42,16 @@ class RestaurantBottomSheetFragment : BottomSheetDialogFragment, WorkmatesAdapte
 
     private var mPlace: Place
     private var mDetail: PlaceDetail
+    private var mContext: Context
     private lateinit var mRestaurantId: String
     private lateinit var mRestaurantName: String
     private lateinit var mUser: User
     private lateinit var workmatesAdapter: WorkmatesAdapter
 
-    constructor(place: Place, details: PlaceDetail) {
+    constructor(place: Place, details: PlaceDetail, context: Context) {
         mPlace = place
         mDetail = details
+        mContext = context
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -127,12 +131,26 @@ class RestaurantBottomSheetFragment : BottomSheetDialogFragment, WorkmatesAdapte
                 bottom_sheet_restaurant_floating_action_button.setImageResource(R.drawable.baseline_close_black_18dp)
                 bottom_sheet_restaurant_floating_action_button.tag = 0
 
-                UserHelper.updateLunchDestination("", "", getCurrentUser().uid)
+                UserHelper.updateLunchDestination("", "", getCurrentUser().uid, "")
+
+                val prefs = context?.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+
+                prefs?.edit()?.putString("LunchPlace", "")?.apply()
+                prefs?.edit()?.putString("LunchDetail", "")?.apply()
             } else {
                 bottom_sheet_restaurant_floating_action_button.setImageResource(R.drawable.baseline_done_black_18dp)
                 bottom_sheet_restaurant_floating_action_button.tag = 1
 
-                UserHelper.updateLunchDestination(mRestaurantId, mRestaurantName, getCurrentUser().uid)
+                UserHelper.updateLunchDestination(mRestaurantId, mRestaurantName, getCurrentUser().uid, mPlace.vicinity)
+
+                val prefs = context?.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+
+                val gson = Gson()
+                val gsonPlace = gson.toJson(mPlace)
+                val gsonDetail = gson.toJson(mDetail)
+
+                prefs?.edit()?.putString("LunchPlace", gsonPlace)?.apply()
+                prefs?.edit()?.putString("LunchDetail", gsonDetail)?.apply()
             }
         }
     }
@@ -161,7 +179,22 @@ class RestaurantBottomSheetFragment : BottomSheetDialogFragment, WorkmatesAdapte
 
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab?) {
-
+                if (tab != null) {
+                    when (tab.position) {
+                        0 -> {
+                            val intent = Intent(Intent.ACTION_DIAL)
+                            intent.data = Uri.parse("tel:" + mDetail.phoneNumber)
+                            startActivity(intent)
+                        }
+                        1 -> {
+                            Toast.makeText(context, context?.getString(R.string.liked), Toast.LENGTH_SHORT).show()
+                        }
+                        2 -> {
+                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(mDetail.website))
+                            startActivity(intent)
+                        }
+                    }
+                }
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
@@ -177,7 +210,7 @@ class RestaurantBottomSheetFragment : BottomSheetDialogFragment, WorkmatesAdapte
                             startActivity(intent)
                         }
                         1 -> {
-                            Toast.makeText(context, "You have liked the restaurant!", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, context?.getString(R.string.liked), Toast.LENGTH_SHORT).show()
                         }
                         2 -> {
                             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(mDetail.website))

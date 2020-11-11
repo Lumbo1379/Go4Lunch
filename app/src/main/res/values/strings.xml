@@ -30,4 +30,25 @@
     <string name="call">Call</string>
     <string name="like">Like</string>
     <string name="website">Website</string>
+
+    <string name="continue_with_facebook">Continue with Facebook</string>
+    <string name="continue_with_google">Continue with Google</string>
+    <string name="find_a_nice_restaurant_and_invite_your_co_workers_for_lunch">Find a nice restaurant and invite your co-workers for lunch!</string>
+    <string name="map_view">Map View</string>
+    <string name="list_view">List View</string>
+    <string name="workmates">Workmates</string>
+    <string name="enable_lunch_notifications">Enable lunch notifications</string>
+    <string name="categories">Categories</string>
+    <string name="your_lunch">YOUR LUNCH</string>
+    <string name="settings">SETTINGS</string>
+    <string name="logout">LOGOUT</string>
+    <string name="is_joining">\u0020is joining</string>
+    <string name="decision">\u0020hasn\'t decided yet</string>
+    <string name="eating">\u0020is eating at </string>
+    <string name="closing_soon">Closing soon</string>
+    <string name="liked">You have liked the restaurant!</string>
+    <string name="open">Open until\u0020</string>
+    <string name="time_error">Could not retrieve closing time</string>
+    <string name="spanish">Spanish</string>
+    <string name="search">Search</string>
 </resources>

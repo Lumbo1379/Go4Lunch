@@ -5,18 +5,18 @@
     android:layout_height="wrap_content"
     android:layout_width="match_parent">
 
-    <item android:title="Categories">
+    <item android:title="@string/categories">
         <menu>
             <group android:checkableBehavior="single">
                 <item
                     android:id="@+id/activity_main_drawer_your_lunch"
-                    android:title="YOUR LUNCH" />
+                    android:title="@string/your_lunch" />
                 <item
                     android:id="@+id/activity_main_drawer_settings"
-                    android:title="SETTINGS" />
+                    android:title="@string/settings" />
                 <item
                     android:id="@+id/activity_main_drawer_logout"
-                    android:title="LOGOUT" />
+                    android:title="@string/logout" />
             </group>
         </menu>
     </item>

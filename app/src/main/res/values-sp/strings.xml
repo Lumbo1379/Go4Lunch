@@ -1,0 +1,55 @@
+<resources>
+    <string name="app_name">Go4Lunch</string>
+
+    <!-- Used in NavigationDrawer -->
+    <string name="navigation_drawer_open">Cajón de navegación abierto</string>
+    <string name="navigation_drawer_close">Cerrar cajón de navegación</string>
+    <string name="title_activity_maps">Mapa</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="facebook_app_id">384311675913084</string>
+    <string name="fb_login_protocol_scheme">fb384311675913084</string>
+
+    <!-- Login messages -->
+    <string name="error_auth_cancelled">Inicio de sesión cancelado</string>
+    <string name="error_auth_no_internet">¡Incapaz de conectarse a Internet!</string>
+    <string name="error_auth_unknown">Error desconocido...</string>
+
+    <!-- Chat Activity -->
+    <string name="toolbar_title_chat_activity">Chats</string>
+    <string name="text_input_title_chat_activity">Redacta tu mensaje</string>
+    <string name="button_title_chat_activity">ENVIAR</string>
+    <string name="text_view_chat_error">Este hilo de discusión actualmente no contiene ningún mensaje&#8230;</string>
+    <string name="popup_title_permission_files_access">Esta aplicación necesita permiso para funcionar.</string>
+    <string name="toast_title_no_image_chosen">Ninguna imagen elegida&#8230;</string>
+
+    <!-- Bottom Sheet -->
+    <string name="call">Llamada</string>
+    <string name="like">Me gusta</string>
+    <string name="website">Sitio web</string>
+
+    <string name="continue_with_facebook">Continuar con Facebook</string>
+    <string name="continue_with_google">Continuar con Google</string>
+    <string name="find_a_nice_restaurant_and_invite_your_co_workers_for_lunch">¡Encuentra un buen restaurante e invita a tus compañeros de trabajo a almorzar!</string>
+        <string name="map_view">Mapa</string>
+    <string name="list_view">Lista</string>
+    <string name="workmates">Compañeros</string>
+    <string name="enable_lunch_notifications">Habilitar notificaciones de almuerzo</string>
+    <string name="categories">Categorías</string>
+    <string name="your_lunch">TU ALMUERZO</string>
+    <string name="settings">AJUSTES</string>
+    <string name="logout">CERRAR SESIÓN</string>
+    <string name="is_joining">\u0020se une</string>
+    <string name="decision">\u0020no ha decidido todavía</string>
+    <string name="eating">\u0020está comiendo en\u0020</string>
+    <string name="closing_soon">Cerrando pronto</string>
+    <string name="liked">¡Te ha gustado el restaurante!</string>
+    <string name="open">Abierto hasta\u0020</string>
+    <string name="time_error">No se pudo recuperar la hora de cierre</string>
+    <string name="spanish">Español</string>
+    <string name="search">Buscar</string>
+
+</resources>

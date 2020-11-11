@@ -56,7 +56,7 @@ class RestaurantRecyclerViewAdapter : RecyclerView.Adapter<RestaurantRecyclerVie
         holder.itemView.setOnClickListener {
             val position = it.tag.toString().toInt()
 
-            val bottomSheet = RestaurantBottomSheetFragment(mPlaces[position], mDetails[position]?.result!!)
+            val bottomSheet = RestaurantBottomSheetFragment(mPlaces[position], mDetails[position]?.result!!, mActivity!!.applicationContext)
 
             if (mActivity != null) {
                 bottomSheet.show(mActivity!!.supportFragmentManager, "restaurantBottomSheet")
@@ -77,6 +77,13 @@ class RestaurantRecyclerViewAdapter : RecyclerView.Adapter<RestaurantRecyclerVie
         }
     }
 
+    fun clear() {
+        val size = mPlaces.size
+        mPlaces.clear()
+        mDetails.clear()
+        notifyDataSetChanged()
+    }
+
     class RestaurantViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun updateWithRestaurant(place: Place, details: PlaceDetail?, preferences: SharedPreferences) {
             itemView.list_row_restaurant_text_name.text = place.name
@@ -84,9 +91,9 @@ class RestaurantRecyclerViewAdapter : RecyclerView.Adapter<RestaurantRecyclerVie
 
             if (details != null) {
                 if (details.openingHours != null) {
-                    itemView.list_row_restaurant_text_opening_hours.text = APIParse.parseOpeningHours(details.openingHours.periods, Calendar.getInstance().get(Calendar.DAY_OF_WEEK) - 1) // Sunday is 1, we want it to be 0
+                    itemView.list_row_restaurant_text_opening_hours.text = APIParse.parseOpeningHours(details.openingHours.periods, Calendar.getInstance().get(Calendar.DAY_OF_WEEK) - 1, itemView.context) // Sunday is 1, we want it to be 0
 
-                    if (itemView.list_row_restaurant_text_opening_hours.text == "Closing soon") {
+                    if (itemView.list_row_restaurant_text_opening_hours.text == itemView.context.getString(R.string.closing_soon)) {
                         itemView.list_row_restaurant_text_opening_hours.setTextColor(Color.RED)
                     } else {
                         itemView.list_row_restaurant_text_opening_hours.setTextColor(itemView.resources.getColor(R.color.colorText))

@@ -1,9 +1,12 @@
 package com.example.go4lunch.utils
 
-import android.content.Context
+import android.R.attr
 import android.content.SharedPreferences
-import android.location.Location
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
+import com.google.maps.android.SphericalUtil
 import kotlin.math.*
+
 
 class Maths {
     companion object {
@@ -22,6 +25,13 @@ class Maths {
             var distance = r * c * 1000
             distance = distance.pow(2)
             return sqrt(distance)
+        }
+
+        fun getBounds(centre: LatLng, radius: Double): LatLngBounds {
+            val distanceFromCentre = radius * sqrt(2.0)
+            val southWest = SphericalUtil.computeOffset(centre, distanceFromCentre, 255.0)
+            val northEast = SphericalUtil.computeOffset(centre, distanceFromCentre, 45.0)
+            return LatLngBounds(southWest, northEast)
         }
     }
 }

@@ -21,6 +21,7 @@ import com.example.go4lunch.models.restaurant.PlaceDetails
 import com.example.go4lunch.models.restaurant.Places
 import com.example.go4lunch.utils.APICalls
 import com.example.go4lunch.utils.APIConstants
+import com.example.go4lunch.utils.IFragment
 import com.example.go4lunch.utils.PreferenceKeys
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
@@ -30,7 +31,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 
-class MapViewFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener, APICalls.ICallBacks {
+class MapViewFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener, APICalls.ICallBacks, IFragment {
 
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
@@ -122,7 +123,9 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickL
                 val currentLatLng = LatLng(location.latitude, location.longitude)
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12f))
 
-                getRestaurants()
+                getRestaurants("restaurant")
+            } else {
+                zoomToCurrentLocation()
             }
         }
     }
@@ -166,8 +169,8 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickL
         }
     }
 
-    private fun getRestaurants() {
-        APICalls.fetchPlaces(this, mLastLocation, 1500, "restaurant", "restaurant", APIConstants.API_KEY)
+    private fun getRestaurants(keyword: String) {
+        APICalls.fetchPlaces(this, mLastLocation, 1500, "restaurant", keyword, APIConstants.API_KEY)
     }
 
     private fun placeMarker(location: LatLng, position: Int, occupied: Boolean) {
@@ -224,7 +227,7 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickL
     }
 
     override fun onResponse(place: PlaceDetails?) {
-        val bottomSheet = RestaurantBottomSheetFragment(mPlaces.results[mLastClickedPosition], place?.result!!)
+        val bottomSheet = RestaurantBottomSheetFragment(mPlaces.results[mLastClickedPosition], place?.result!!, context!!)
 
         if (activity != null) {
             bottomSheet.show(activity!!.supportFragmentManager, "restaurantBottomSheet")
@@ -255,5 +258,11 @@ class MapViewFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickL
         if (!mLocationUpdateState) {
             startLocationUpdates()
         }
+    }
+
+    override fun setSearchQuery(query: String) {
+        mMap.clear()
+
+        getRestaurants(query)
     }
 }

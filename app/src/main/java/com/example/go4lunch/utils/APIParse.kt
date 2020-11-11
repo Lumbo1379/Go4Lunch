@@ -1,5 +1,7 @@
 package com.example.go4lunch.utils
 
+import android.content.Context
+import com.example.go4lunch.R
 import com.example.go4lunch.models.restaurant.Period
 import java.util.*
 
@@ -12,7 +14,7 @@ class APIParse {
             return strs[0]
         }
 
-        fun parseOpeningHours(periods: List<Period>, day: Int) : String {
+        fun parseOpeningHours(periods: List<Period>, day: Int, context: Context) : String {
             if (periods[0].close == null)
                 return "24/7"
 
@@ -21,23 +23,23 @@ class APIParse {
             return when (relevantPeriods.size) {
                 1 -> {
                     if (checkIfClosingSoon(relevantPeriods[0].close.time)) {
-                        return "Closing soon"
+                        return context.getString(R.string.closing_soon)
                     }
 
-                    "Open until " + checkIf24Hours(relevantPeriods[0].close.time / 100) + checkForNot00(relevantPeriods[0].close.time) + checkIfAM(relevantPeriods[0].close.time)
+                    context.getString(R.string.open) + checkIf24Hours(relevantPeriods[0].close.time / 100) + checkForNot00(relevantPeriods[0].close.time) + checkIfAM(relevantPeriods[0].close.time)
                 }
                 else -> {
                     if (checkIfClosingSoon(relevantPeriods[0].close.time)) {
-                        return "Closing soon"
+                        return context.getString(R.string.closing_soon)
                     }
 
                     val currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY) * 100
                     val period = relevantPeriods.find { p -> p.close.time >= currentHour || p.close.time == 0}
 
                     if (period != null) {
-                        "Open until " + checkIf24Hours(period.close.time / 100) + checkForNot00(period.close.time) + checkIfAM(period.close.time)
+                        context.getString(R.string.open) + checkIf24Hours(period.close.time / 100) + checkForNot00(period.close.time) + checkIfAM(period.close.time)
                     } else {
-                        "Could not retrieve closing time"
+                        context.getString(R.string.time_error)
                     }
                 }
             }

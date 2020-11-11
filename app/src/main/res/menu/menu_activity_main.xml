@@ -4,7 +4,8 @@
     <item
         android:id="@+id/menu_activity_main_search"
         android:icon="@drawable/baseline_search_black_18dp"
-        app:showAsAction="ifRoom"
+        app:showAsAction="always"
+        android:iconTint="@color/colorBottomSheetText"
         android:title="Search">
     </item>
 </menu>

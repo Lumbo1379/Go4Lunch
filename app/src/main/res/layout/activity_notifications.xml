@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".controllers.NotificationsActivity">
+
+    <Switch
+        android:id="@+id/activity_notifications_switch_notifications"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/enable_lunch_notifications"
+        android:layout_margin="15dp"/>
+
+    <Switch
+        android:id="@+id/activity_notifications_switch_spanish"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/spanish"
+        android:layout_margin="15dp"/>
+
+</LinearLayout>

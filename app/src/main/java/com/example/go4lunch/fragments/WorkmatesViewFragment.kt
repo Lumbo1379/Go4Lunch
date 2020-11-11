@@ -18,6 +18,7 @@ import com.example.go4lunch.helpers.MessageHelper
 import com.example.go4lunch.helpers.UserHelper
 import com.example.go4lunch.models.Message
 import com.example.go4lunch.models.User
+import com.example.go4lunch.utils.IFragment
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.Query
@@ -26,7 +27,7 @@ import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.fragment_list_view.*
 import kotlinx.android.synthetic.main.fragment_workmates_view.*
 
-class WorkmatesViewFragment : Fragment(), WorkmatesAdapter.IListener {
+class WorkmatesViewFragment : Fragment(), WorkmatesAdapter.IListener, IFragment {
 
     private lateinit var workmatesAdapter: WorkmatesAdapter
 
@@ -56,6 +57,10 @@ class WorkmatesViewFragment : Fragment(), WorkmatesAdapter.IListener {
     }
 
     override fun onDataChanged() {
+
+    }
+
+    override fun setSearchQuery(query: String) {
 
     }
 }

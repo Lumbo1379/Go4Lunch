@@ -6,7 +6,8 @@ data class User (
     val urlPicture: String,
     val restaurantId: String,
     val restaurantName: String,
-    val lunchUpdateDate: String
+    val lunchUpdateDate: String,
+    val restaurantAddress: String
 ) {
-    constructor() : this("", "", "", "", "", "")
+    constructor() : this("", "", "", "", "", "", "")
 }

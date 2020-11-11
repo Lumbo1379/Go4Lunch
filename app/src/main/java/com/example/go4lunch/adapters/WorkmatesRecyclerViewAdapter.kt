@@ -18,16 +18,16 @@ class WorkmatesRecyclerViewAdapter(itemView: View) : RecyclerView.ViewHolder(ite
     fun updateWithWorkmate(workmate: User, glide: RequestManager, inRestaurant: Boolean) {
 
         if (inRestaurant) {
-            itemView.list_row_workmate_text_status.text = workmate.displayName +  " is joining!"
+            itemView.list_row_workmate_text_status.text = workmate.displayName +  itemView.context.getString(R.string.is_joining)
         } else {
             if (workmate.restaurantName == "") {
                 itemView.list_row_workmate_text_status.setTextColor(itemView.context.resources.getColor(R.color.colorText))
                 itemView.list_row_workmate_text_status.setTypeface(null, Typeface.ITALIC)
-                itemView.list_row_workmate_text_status.text = workmate.displayName + " hasn't decided yet"
+                itemView.list_row_workmate_text_status.text = workmate.displayName + itemView.context.getString(R.string.decision)
             } else {
                 itemView.list_row_workmate_text_status.setTextColor(itemView.context.resources.getColor(R.color.colorBlack))
                 itemView.list_row_workmate_text_status.setTypeface(null, Typeface.NORMAL)
-                itemView.list_row_workmate_text_status.text = workmate.displayName + " is eating at " + workmate.restaurantName
+                itemView.list_row_workmate_text_status.text = workmate.displayName + itemView.context.getString(R.string.eating) + workmate.restaurantName
             }
         }
 
